@@ -16,9 +16,9 @@ const AuthLayout = ({
 
   useEffect(() => {
     const isAuthenticated = async () => {
-      const { data } = await supabase.auth.getClaims();
+      const { data } = await supabase.auth.getUser();
 
-      if (data) return router.push("/");
+      if (data.user) return router.push("/");
       setIsAuthenticating(false);
     };
     isAuthenticated();

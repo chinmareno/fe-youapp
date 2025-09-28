@@ -6,7 +6,10 @@ interface AuthInputProps extends InputHTMLAttributes<HTMLInputElement> {}
 
 const AuthInput = ({ className, ...props }: AuthInputProps) => {
   return (
-    <Input className={`bg-[#22373C] py-6 ${className ?? ""}`} {...props} />
+    <Input
+      className={`bg-[#22373C] p-4 w-full rounded-md ${className ?? ""}`}
+      {...props}
+    />
   );
 };
 
