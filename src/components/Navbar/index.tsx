@@ -5,9 +5,10 @@ import { useRouter } from "next/navigation";
 
 interface NavbarProps {
   isUsernameVisible?: boolean;
+  username?: string;
 }
 
-const Navbar = ({ isUsernameVisible = false }: NavbarProps) => {
+const Navbar = ({ isUsernameVisible = false, username }: NavbarProps) => {
   const router = useRouter();
 
   return (
@@ -16,7 +17,7 @@ const Navbar = ({ isUsernameVisible = false }: NavbarProps) => {
         <BackButton onClick={() => router.back()} />
       </div>
       <div className="w-1/3 place-self-center text-center">
-        {isUsernameVisible && <p>@johndoe</p>}
+        {isUsernameVisible && <p>{username}</p>}
       </div>
       <div className="w-1/3 text-right" />
     </nav>

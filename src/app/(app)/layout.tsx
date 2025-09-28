@@ -12,6 +12,7 @@ const AppLayout = ({
   children: React.ReactNode;
 }>) => {
   const [isAuthenticating, setIsAuthenticating] = useState(true);
+  const [username, setUsername] = useState("user");
 
   const router = useRouter();
 
@@ -23,6 +24,13 @@ const AppLayout = ({
     const isAuthenticated = async () => {
       const { data } = await supabase.auth.getUser();
       if (!data.user) return router.push("/login");
+      const userEmail = data.user?.email;
+      const { data: profileData } = await supabase
+        .from("profile")
+        .select("username")
+        .eq("email", userEmail)
+        .single();
+      setUsername(profileData?.username || "user");
       setIsAuthenticating(false);
     };
     isAuthenticated();
@@ -36,7 +44,7 @@ const AppLayout = ({
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Navbar isUsernameVisible={isUsernameVisible} />
+      <Navbar isUsernameVisible={isUsernameVisible} username={"@" + username} />
       {children}
     </QueryClientProvider>
   );

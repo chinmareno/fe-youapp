@@ -181,6 +181,14 @@ const AboutCardEditing = ({
               className={`text-right h-9 ${
                 heightState ? "pr-9" : ""
               } placeholder:text-[#4C5559]`}
+              inputMode="numeric"
+              pattern="[0-9]*"
+              onInput={(e) => {
+                e.currentTarget.value = e.currentTarget.value.replace(
+                  /[^0-9]/g,
+                  ""
+                );
+              }}
               {...register("newHeight")}
             />
             {heightState && (
