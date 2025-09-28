@@ -46,6 +46,13 @@ const Register = () => {
     password,
     username,
   }) => {
+    const { data } = await supabase
+      .from("profile")
+      .select("id")
+      .eq("username", username)
+      .single();
+    if (data) return toast.error("Username has been taken");
+
     const { error } = await supabase.auth.signUp({
       email,
       password,
@@ -54,6 +61,7 @@ const Register = () => {
       toast.error(error.message);
     } else {
       await supabase.auth.signInWithPassword({ email, password });
+
       await supabase.from("profile").insert({ username, email });
       toast.success(
         "Registered successfully, please check your email to confirm your account"
