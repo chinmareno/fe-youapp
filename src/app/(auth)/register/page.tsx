@@ -2,12 +2,13 @@
 
 import AuthSubmitButton from "@/components/Button/AuthSubmitButton";
 import AuthInput from "@/components/Input/AuthInput";
-import { supabase } from "@/lib/supabase";
+import { createSupabaseClient } from "@/lib/supabase";
 import Link from "next/link";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 interface IFormInput {
   username: string;
@@ -29,6 +30,8 @@ const RegisterSchema = z
   });
 
 const Register = () => {
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -36,6 +39,7 @@ const Register = () => {
   } = useForm<IFormInput>({
     resolver: zodResolver(RegisterSchema),
   });
+  const supabase = createSupabaseClient();
 
   const onSubmit: SubmitHandler<IFormInput> = async ({
     email,
@@ -50,11 +54,11 @@ const Register = () => {
       toast.error(error.message);
     } else {
       await supabase.auth.signInWithPassword({ email, password });
-      const res = await supabase.from("profile").insert({ username, email });
-      console.log(res);
+      await supabase.from("profile").insert({ username, email });
       toast.success(
         "Registered successfully, please check your email to confirm your account"
       );
+      router.push("/");
     }
   };
 
@@ -102,7 +106,10 @@ const Register = () => {
 
       <p className="text-sm text-center mt-12">
         Have an account?{" "}
-        <Link href="/login" className="text-[#DAC28F] underline">
+        <Link
+          href="/login"
+          className="text-transparent bg-[linear-gradient(to_right,#F3EDA6,#F8FAE5,#FFE2BE,#D5BE88,#F8FAE5,#D5BE88)] bg-clip-text border-b"
+        >
           Login here
         </Link>
       </p>

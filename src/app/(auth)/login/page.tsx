@@ -2,8 +2,11 @@
 
 import AuthSubmitButton from "@/components/Button/AuthSubmitButton";
 import AuthInput from "@/components/Input/AuthInput";
-import { supabase } from "@/lib/supabase";
+import { createSupabaseClient } from "@/lib/supabase";
+
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -13,6 +16,11 @@ interface IFormInput {
 }
 
 const Login = () => {
+  const router = useRouter();
+  const supabase = createSupabaseClient();
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -20,12 +28,15 @@ const Login = () => {
   } = useForm<IFormInput>();
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    setIsSubmitting(true);
+
     const { data: user } = await supabase
       .from("profile")
       .select("email")
       .or(`username.eq.${data.user},email.eq.${data.user}`)
       .single();
     if (!user) {
+      setIsSubmitting(false);
       toast.error("User not found");
     } else {
       const res = await supabase.auth.signInWithPassword({
@@ -33,9 +44,12 @@ const Login = () => {
         password: data.password,
       });
       if (res.error) {
+        setIsSubmitting(false);
         toast.error(res.error.message);
       } else {
         toast.success("Logged in successfully");
+        setIsSubmitting(false);
+        router.push("/");
       }
     }
   };
@@ -61,13 +75,20 @@ const Login = () => {
         {errors.password?.type === "required" && (
           <p className="text-red-600">Password is required</p>
         )}
-        <AuthSubmitButton type="submit" className="w-full mt-7">
+        <AuthSubmitButton
+          disabled={isSubmitting}
+          type="submit"
+          className="w-full mt-7"
+        >
           Login
         </AuthSubmitButton>
       </form>
       <p className="text-sm text-center mt-12">
         No account?{" "}
-        <Link href="/register" className="text-[#DAC28F] underline">
+        <Link
+          href="/register"
+          className="text-transparent bg-[linear-gradient(to_right,#F3EDA6,#F8FAE5,#FFE2BE,#D5BE88,#F8FAE5,#D5BE88)] bg-clip-text border-b"
+        >
           Register here
         </Link>
       </p>
