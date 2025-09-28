@@ -1,6 +1,7 @@
 import { Input } from "../ui/input";
 import type { InputHTMLAttributes } from "react";
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface AuthInputProps extends InputHTMLAttributes<HTMLInputElement> {}
 
 const AuthInput = ({ className, ...props }: AuthInputProps) => {

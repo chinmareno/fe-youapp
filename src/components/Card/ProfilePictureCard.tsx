@@ -23,6 +23,7 @@ const ProfilePicture = ({
   return (
     <div className="rounded-xl h-44 relative overflow-hidden bg-[#162329]">
       {imageUrl && (
+        // eslint-disable-next-line @next/next/no-img-element
         <img
           src={imageUrl}
           alt={`${username}'s profile`}

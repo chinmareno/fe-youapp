@@ -27,6 +27,7 @@ const AppLayout = ({
       setIsAuthenticating(false);
     };
     isAuthenticated();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (isAuthenticating) {

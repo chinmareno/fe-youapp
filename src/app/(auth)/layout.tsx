@@ -22,6 +22,7 @@ const AuthLayout = ({
       setIsAuthenticating(false);
     };
     isAuthenticated();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   if (isAuthenticating) {
     return <p className="pt-10">loading...</p>;

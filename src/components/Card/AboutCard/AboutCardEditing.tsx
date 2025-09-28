@@ -52,6 +52,7 @@ const AboutCardEditing = ({
   useEffect(() => {
     if (height) setHeightState(!!height);
     if (weight) setWeightState(!!weight);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [previewImageUrl, setPreviewImageUrl] = useState(profilePictureUrl);
@@ -67,6 +68,7 @@ const AboutCardEditing = ({
     return () => {
       if (previewImageUrl) URL.revokeObjectURL(previewImageUrl);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newProfilePicture]);
 
   return (
