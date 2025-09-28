@@ -14,8 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title:
-    "aaaaaaaaaYouApp – Interest-Based Social Matchmaking Powered by YOUAI™",
+  title: "YouApp – Interest-Based Social Matchmaking Powered by YOUAI™",
   description:
     "YouApp uses YOUAI™ to match you with aligned friends, partners, and hosts through AI and metaphysical wisdom—turning shared interests into real-life experiences that spark connection, growth, and purpose.",
   icons: {
